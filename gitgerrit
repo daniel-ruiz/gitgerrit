@@ -2,10 +2,16 @@
 
 require_relative 'models/command_line_options'
 require_relative 'models/command_composer'
+require_relative 'models/alias_importer'
+
+ARGV << '-h' if ARGV.empty?
 
 options = CommandLineOptions.new
-
 options.parse_arguments_from(ARGV)
 
-puts CommandComposer.new(branch: options.branch, options: {topic: options.topic, reviewers: options.reviewers}).push
-exit
+aliases = AliasImporter.new.parse_aliases
+
+options.reviewers.map!{ |reviewer| aliases[reviewer] || reviewer  }
+
+%x( #{CommandComposer.new(branch: options.branch, options: {topic: options.topic, reviewers: options.reviewers}).push} )
+exit $?.exitstatus
