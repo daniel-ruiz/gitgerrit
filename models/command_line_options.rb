@@ -2,7 +2,7 @@ require 'optparse'
 
 class CommandLineOptions
 
-  attr_reader :topic, :reviewers, :parser
+  attr_reader :branch, :topic, :reviewers, :parser
 
   def initialize
     @reviewers = []
@@ -17,9 +17,13 @@ class CommandLineOptions
 
   def configure_parser
     OptionParser.new do |parser|
-      parser.banner = 'Usage: gitgerrit BRANCH [OPTIONS]'
+      parser.banner = 'Usage: gitgerrit -b branch [OPTIONS]'
       parser.separator ''
-      parser.separator 'BRANCH    Specify the branch in which the change will be pushed'
+
+      parser.on('-b', '--branch branch', 'Specify the branch in which the change will be pushed') do |branch|
+        @branch = branch
+      end
+
       parser.separator ''
       parser.separator 'OPTIONS'
 

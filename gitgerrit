@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative 'models/command_line_options'
+require_relative 'models/command_composer'
+
+options = CommandLineOptions.new
+
+options.parse_arguments_from(ARGV)
+
+puts CommandComposer.new(branch: options.branch, options: {topic: options.topic, reviewers: options.reviewers}).push
+exit
