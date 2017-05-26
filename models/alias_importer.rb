@@ -4,7 +4,7 @@ class AliasImporter
 
   attr_reader :alias_file_path
 
-  def initialize(alias_file_path: 'alias.yaml')
+  def initialize(alias_file_path: "#{Dir.home}/.gitgerrit/alias.yaml")
     @alias_file_path = alias_file_path
   end
 
