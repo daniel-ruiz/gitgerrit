@@ -20,7 +20,8 @@ class CommandLineOptions
       parser.banner = 'Usage: gitgerrit -b branch [OPTIONS]'
       parser.separator ''
 
-      parser.on('-b', '--branch branch', 'Specify the branch in which the change will be pushed') do |branch|
+      parser.on('-b', '--branch branch', `git branch`.split("\n").map!(&:chomp).map!(&:lstrip),
+                'Specify the branch in which the change will be pushed') do |branch|
         @branch = branch
       end
 
